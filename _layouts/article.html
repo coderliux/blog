@@ -1,0 +1,210 @@
+---
+layout: default
+---
+<div class="article-layout" id="article-layout">
+  <article class="article-content" id="article-content">
+    {{ content }}
+  </article>
+  <nav class="article-toc" id="article-toc" aria-label="文章目录"></nav>
+</div>
+<button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="true" aria-controls="article-toc">☰ 目录</button>
+<div class="toc-backdrop" id="toc-backdrop"></div>
+
+<style>
+  .page-content .wrapper { max-width: 1100px; }
+  .site-header .wrapper { max-width: 1100px; }
+  .article-layout { display: flex; gap: 2.5rem; align-items: flex-start; }
+  .article-content { flex: 1 1 auto; min-width: 0; }
+  .article-layout.toc-collapsed .article-toc { display: none; }
+  .article-layout.toc-collapsed .article-content { flex-basis: 100%; }
+
+  .article-toc {
+    flex: 0 0 13rem;
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    padding-left: 1rem;
+    border-left: 1px solid #d0d7de;
+  }
+  .article-toc .toc-title { margin: 0 0 .6rem; font-weight: 600; font-size: .85rem; color: #1f2328; }
+  .article-toc ul { list-style: none; margin: 0; padding: 0; }
+  .article-toc ul ul { padding-left: .9rem; }
+  .article-toc a { display: block; padding: .18rem 0; color: #57606a; text-decoration: none; }
+  .article-toc a:hover { color: #0969da; }
+  .article-toc a.active { color: #0969da; font-weight: 600; }
+
+  /* 浮动目录开关按钮 */
+  .toc-toggle {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 100;
+    padding: .55rem .85rem;
+    background: #0969da;
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    font-size: .85rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+  }
+  .toc-toggle:hover { background: #0550ae; }
+
+  .toc-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 90;
+    display: none;
+  }
+
+  /* 移动端 / 平板：目录变成右侧滑出抽屉 */
+  @media (max-width: 900px) {
+    .article-layout { display: block; }
+    .article-toc {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 264px;
+      max-height: none;
+      z-index: 95;
+      background: #fff;
+      padding: 1.2rem 1.2rem 2rem;
+      border-left: 1px solid #d0d7de;
+      box-shadow: -2px 0 12px rgba(0, 0, 0, .2);
+      transform: translateX(100%);
+      transition: transform .25s ease;
+    }
+    .article-toc.open { transform: translateX(0); }
+    .toc-backdrop.show { display: block; }
+  }
+
+  /* 移动端排版：代码横向滚动、图片自适应 */
+  .article-content pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .article-content img { max-width: 100%; height: auto; }
+</style>
+
+<script>
+(function () {
+  var content = document.getElementById('article-content');
+  var toc = document.getElementById('article-toc');
+  if (!content || !toc) return;
+  var headings = Array.prototype.slice.call(content.querySelectorAll('h2, h3'));
+  if (!headings.length) {
+    toc.remove();
+    var t = document.getElementById('toc-toggle');
+    if (t) t.remove();
+    return;
+  }
+
+  // 确保每个标题有可用锚点 id
+  headings.forEach(function (h) {
+    if (!h.id) h.id = h.textContent.trim().toLowerCase().replace(/[^\w一-龥]+/g, '-');
+  });
+
+  // 生成目录树（h2 章节 / h3 小节嵌套）
+  var title = document.createElement('p');
+  title.className = 'toc-title';
+  title.textContent = '目录';
+  toc.appendChild(title);
+
+  var root = document.createElement('ul');
+  toc.appendChild(root);
+  var lastH2 = null;
+  var links = [];
+  headings.forEach(function (h) {
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.trim();
+    a.setAttribute('data-target', h.id);
+    links.push(a);
+    li.appendChild(a);
+    if (h.tagName === 'H2') {
+      lastH2 = li;
+      root.appendChild(li);
+    } else if (lastH2) {
+      var sub = lastH2.querySelector('ul');
+      if (!sub) { sub = document.createElement('ul'); lastH2.appendChild(sub); }
+      sub.appendChild(li);
+    } else {
+      root.appendChild(li);
+    }
+  });
+
+  var layout = document.getElementById('article-layout');
+  var toggle = document.getElementById('toc-toggle');
+  var backdrop = document.getElementById('toc-backdrop');
+
+  // 目录显示/隐藏（桌面折叠侧栏；移动端滑出抽屉）
+  function setToc(open) {
+    if (window.innerWidth <= 900) {
+      toc.classList.toggle('open', open);
+      if (backdrop) backdrop.classList.toggle('show', open);
+    } else {
+      layout.classList.toggle('toc-collapsed', !open);
+    }
+    if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var open = window.innerWidth <= 900
+        ? !toc.classList.contains('open')
+        : !layout.classList.contains('toc-collapsed');
+      setToc(open);
+    });
+  }
+  if (backdrop) backdrop.addEventListener('click', function () { setToc(false); });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 900) {
+      toc.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('show');
+    } else {
+      layout.classList.remove('toc-collapsed');
+    }
+  });
+
+  // 点击目录项：平滑滚动 + 移动端自动收起抽屉
+  toc.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    var target = document.getElementById(a.getAttribute('href').slice(1));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+      if (window.innerWidth <= 900) setToc(false);
+    }
+  });
+
+  // 滚动高亮当前章节
+  function onScroll() {
+    var current = null;
+    headings.forEach(function (h) {
+      if (h.getBoundingClientRect().top <= 90) current = h;
+    });
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('data-target') === (current && current.id));
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // 表格横向滚动容器（移动端友好）
+  Array.prototype.forEach.call(content.querySelectorAll('table'), function (t) {
+    var w = document.createElement('div');
+    w.style.cssText = 'overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1rem;';
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+
+  // 初始化开关状态
+  setToc(window.innerWidth > 900);
+})();
+</script>

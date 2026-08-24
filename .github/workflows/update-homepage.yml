@@ -1,0 +1,42 @@
+name: 自动更新首页文章索引
+
+on:
+  push:
+    branches: [main]
+    # 只在文章（*.md，排除首页自身）变更时触发，避免与自动提交互相触发
+    paths:
+      - '**/*.md'
+      - '!index.md'
+      - '!README.md'
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码（含完整历史，用于计算发布时间）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 重新生成首页文章表格
+        run: python3 scripts/update_index.py
+
+      - name: 有变更则提交并推送
+        run: |
+          if ! git diff --quiet -- index.md README.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.md README.md
+            git commit -m "docs: 自动更新首页文章索引"
+            git push
+          else
+            echo "首页表格无需变更"
+          fi

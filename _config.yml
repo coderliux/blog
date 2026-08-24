@@ -1,0 +1,17 @@
+title: 杰哥学习札记
+description: 个人技术知识的总结与沉淀
+theme: minima
+baseurl: /blog
+# 自动功能：内容目录下的所有文章自动套用 article 布局（含自动生成的侧边目录），
+# 无需每篇文章手写 front matter 或目录。新增主题目录时在此追加一条 scope。
+defaults:
+  - scope:
+      path: "ontology"
+    values:
+      layout: article
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock

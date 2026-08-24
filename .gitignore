@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# 编辑器 / IDE
+.idea/
+.vscode/
+
+# 临时文件
+*.swp
+*~
