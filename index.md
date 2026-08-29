@@ -15,7 +15,8 @@ title: 首页
 
 | 标题 | 简介 | 发布时间 |
 |------|------|----------|
-| [本体概念和建模样例](ontology/ontology-concepts-and-modeling/) | 本体（Ontology）、知识图谱、RAG 的概念分工，OWL / RDF / SHACL / Turtle 四层建模语言，并以威胁情报（CTI）领域为例给出从实体建模到落库的完整示例 | 2026-08-23 |
+| [我与我的四个女朋友](ontology/four-girlfriends/) | 让一个人离开，有时候只需要一件事，或者一句话，分手也不过如此。 | 2026-08-29 |
+| [本体概念和建模样例](ontology/ontology-concepts-and-modeling/) | 本体（Ontology）、知识图谱、RAG 的概念分工，OWL / RDF / SHACL / Turtle 四层建模语言，并以威胁情报（CTI）领域为例给出从实体建模到落库的完整示例 | 2026-08-24 |
 
 ## 联系
 - 欢迎交流，扫一扫加我微信：
