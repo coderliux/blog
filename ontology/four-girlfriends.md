@@ -1,3 +1,10 @@
+---
+layout: article
+title: 我与我的四个女朋友
+description: 让一个人离开，有时候只需要一件事，或者一句话，分手也不过如此。
+permalink: /ontology/four-girlfriends/
+---
+
 # 我与我的四个女朋友
 
 > 本故事纯属虚构，如有雷同，纯属巧合。
