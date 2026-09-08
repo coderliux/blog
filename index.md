@@ -15,6 +15,7 @@ title: 首页
 
 | 标题 | 简介 | 发布时间 |
 |------|------|----------|
+| [AI Native软件系统解读](ontology/understanding-ai-native-software-systems/) | 从词源演进、行业共识到厂商定义，系统解读AI原生软件系统的概念与特征，并从交互、架构、数据、流程、发布、质量、运维、价值九个维度对比其与传统软件系统的差异。 | 2026-09-08 |
 | [我与我的四个女朋友](ontology/four-girlfriends/) | 让一个人离开，有时候只需要一件事，或者一句话，分手也不过如此。 | 2026-08-29 |
 | [本体概念和建模样例](ontology/ontology-concepts-and-modeling/) | 本体（Ontology）、知识图谱、RAG 的概念分工，OWL / RDF / SHACL / Turtle 四层建模语言，并以威胁情报（CTI）领域为例给出从实体建模到落库的完整示例 | 2026-08-24 |
 

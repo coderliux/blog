@@ -31,7 +31,7 @@ AI原生并非由某一公开组织正式定义，也不是某个人或某家公
 | 潜伏期        | 2016–2022  | 多出现在基础设施与架构讨论中，指“内嵌AI的系统”，远未普及，各圈子独立使用 |
 | 爆发期        | 2023年起     | ChatGPT引爆大模型后，术语搜索与使用量在2023年初起显著上升——大模型让“AI执行业务”成为现实，词义从“内嵌AI”被充实为“AI作为系统内核” |
 | 品类化        | 2024年      | 投资机构开始将其作为赛道标签——Sapphire Ventures发布《AI-Native Applications》评估框架，追踪到47个AI-Native应用年收入超2500万美元，AI原生从架构理念变为VC品类与招聘标准 |
-| 主流化        | 2025年      | Addy Osmani《The AI-Native Software Engineer》、Salesforce《The AI-Native Engineer》、OpenAI Codex工程指南相继发布，各大厂商正式将其纳入工程语汇与产品定位 |
+| 主流化        | 2025年      | Addy Osmani《The AI-Native Software Engineer》、Salesforce《The AI-Native Engineer》、OpenAI《Building an AI-Native Engineering Team》相继发布，各大厂商正式将其纳入工程语汇与产品定位 |
 | 组织化        | 2025末–2026 | “AI Native Company/Organization”成为硅谷与产业界高频词，话题从“AI原生系统”延伸到“AI原生组织”（YC、a16z与行业头部厂商均有大量论述） |
 
 **两点解读：**
@@ -57,13 +57,11 @@ AI原生并非由某一公开组织正式定义，也不是某个人或某家公
 | **阿里云** | 应用架构：AI原生应用是“以大模型为认知基础、以Agent为编排和执行单元、以数据为决策和个性化基础、通过工具感知和执行的智能应用”；目标是在可扩展、可观测、安全合规的同时最大化释放大模型的智能潜力 | 《AI 原生应用架构白皮书》 |
 | **Anthropic** | 研发流程：AI原生SDLC是“重新构想的流程——保留原有控制目标，把执行机制围绕Agent的能力重新设计；流程从线性接力变为AI嵌入每个阶段的持续反馈闭环” | The AI-Native SDLC Playbook |
 | **Salesforce** | 组织与文化：AI原生实践是组织学习的加速——94%工程师采用、PR提速30%、两年3000万行AI生成代码上线、整体生产力 +50% | The AI-Native Engineer（Salesforce Engineering） |
-| **Microsoft** | 平台/操作系统：Windows 11定位“AI原生操作系统”，Copilot从应用层下沉进系统内核，AI成为操作系统级基础设施 | Windows Latest / Microsoft Learn |
+| **Microsoft** | 平台/操作系统：把 AI 建进操作系统层——AI 不再只是 Copilot 这类应用入口，而是在系统内运行本地模型与智能体：NPU 本地推理、OS 级身份与隔离（MXC），开发者版 Project Zenith 开箱即可本地运行 30B+ 参数模型，Windows 被定位为承载 AI 的平台 | Windows Developer Blog：Announcing Project Zenith（2026-09） |
 | **IBM** | 产品与工作流：AI原生指“某种事物——通常是产品、公司或工作流程——从一开始就将AI作为核心组成部分进行设计，而非事后作为附属功能附加”；判断标准是“将AI移除，产品不仅无法按预期运行，而且会完全失去用途” | IBM Think：什么是AI原生 |
 | **Scaled Agile** | 组织与流程：AI原生组织是“将AI放在最前沿设计组织——不仅是技术选择，更是文化基础”；AI是团队思维中的内在可信组件，贯穿运营、决策、实现、客户交互、维护与优化 | Scaled Agile：What Is AI Native? |
 
-#### 总结
-
-这些定义看似差异很大：有的讲架构、有的讲流程、有的讲组织、有的讲平台，但它们共享同一个底层判断：**AI不应再是事后加上去的功能，而应从设计之初就被内嵌；且“设计之初内嵌”发生在哪个层面（架构、流程、组织、平台），决定了各厂商的表述差异**。华为与阿里云从“系统与架构”切入，Anthropic从“研发流程”切入，Salesforce与Scaled Agile从“组织”切入，Microsoft从“平台/OS”切入，IBM从“产品与工作流”切入——这些视角共同合成一个完整图景。
+**小结：**这些定义看似差异很大：有的讲架构、有的讲流程、有的讲组织、有的讲平台，但它们共享同一个底层判断：**AI不应再是事后加上去的功能，而应从设计之初就被内嵌；且“设计之初内嵌”发生在哪个层面（架构、流程、组织、平台），决定了各厂商的表述差异**。华为与阿里云从“系统与架构”切入，Anthropic从“研发流程”切入，Salesforce与Scaled Agile从“组织”切入，Microsoft从“平台/OS”切入，IBM从“产品与工作流”切入——这些视角共同合成一个完整图景。
 
 本文先聚焦概念解读；AI原生如何重构软件系统研发过程、AI原生的软件系统架构，以及个人与组织如何面向AI原生转型，将留待后续分篇逐步展开。
 
@@ -217,3 +215,5 @@ AI原生软件系统的价值创造是持续性的：价值不在“卖出那一
 13. Addy Osmani：The AI-Native Software Engineer — https://addyo.substack.com/p/the-AI-Native-software-engineer
 14. CNCF：Cloud Native Definition（cloud-native术语背景）— https://github.com/cncf/toc/blob/main/DEFINITION.md
 15. Kimi（月之暗面）：AI智能体与Agentic AI的概念、区别与应用 — https://www.kimi.com/resources/agent-ai-vs-agentic-ai
+16. 微软 Windows 开发者博客：Announcing Project Zenith: The Ready-to-Code Windows Experience（2026-09）— https://blogs.windows.com/windowsdeveloper/2026/09/04/announcing-project-zenith-the-ready-to-code-windows-experience/
+17. Windows Latest：Microsoft Wants Windows 11 to Move Beyond Copilot Buttons, Run AI Models on Your PC（2026-09）— https://www.windowslatest.com/2026/09/06/microsoft-wants-windows-11-to-move-beyond-copilot-buttons-with-ai-models-running-on-your-pc/
