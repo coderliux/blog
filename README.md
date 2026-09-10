@@ -11,7 +11,7 @@
 
 ### 每个主题目录下是独立成篇的 Markdown 文档，目录页顶部可跳转对应章节。
 
-- [x] 本体概念和建模样例（`ontology/ontology-concepts-and-modeling.md`）
+- [x] 一文读懂本体建模到落地（`ontology/ontology-concepts-and-modeling.md`）
 - [ ] 更多主题持续补充中
 
 ## 许可证
