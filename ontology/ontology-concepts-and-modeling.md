@@ -52,10 +52,10 @@ permalink: /ontology/ontology-concepts-and-modeling/
 ### 1.5 四者的联系和区别
 
 ```
-本体（Schema/图纸：概念/属性/关系/约束） ──图纸──► 知识图谱 = 本体 + 实例（大楼）
+本体（Schema/图纸：概念/属性/关系/约束）  ──图纸──► 知识图谱 = 本体 + 实例（大楼）
 业务数据（权威值：漏洞/厂商/情报记录）    ──物化实例──► 图谱实例
-非结构化文档（威胁情报原文）             ──两阶段抽取──► 图谱实例（知识）
-图谱 + 向量                          ──融合──► RAG（先检索再生成，答案带引用可溯源）
+非结构化文档（威胁情报原文）              ──两阶段抽取──► 图谱实例（知识）
+图谱 + 向量                               ──融合──► RAG（先检索再生成，答案带引用可溯源）
 ```
 
 | 维度   | 本体 | 图谱 | 业务数据 | RAG |
@@ -201,7 +201,7 @@ cti:Vulnerability  rdf:type  owl:Class ;
 对应到 OWL/RDF 文件里：
 **TBox 就是类与属性声明（`a owl:Class` / `a owl:ObjectProperty` + <span style="color:#0969da">`subClassOf`</span> + 约束），ABox 就是个体与断言（`cti:TA-5142 a cti:ThreatActor` + `cti:TA-5142 cti:exploits cti:CVE-2024-3400`）**。
 
-用第三章 威胁情报 样例对照（详见 §3.7）：
+用第三章威胁情报样例对照（详见 §3.7）：
 
 ```turtle
 # —— TBox：定义模式（哪些概念、什么关系、什么约束）——
@@ -415,7 +415,7 @@ Palo Alto Networks --<span style="color:#0969da">develops</span>--> PAN-OS</pre>
 {
   "entities": [
     { "id": "TA-5142",            "type": "ThreatActor",  "properties": { "motivation": "financial", "sophistication": "high" } },
-    { "id": "Taotao",       "type": "Organization", "properties": { "role": "victim", "industry": "e-commerce" } },
+    { "id": "Taotao",             "type": "Organization", "properties": { "role": "victim", "industry": "e-commerce" } },
     { "id": "CVE-2024-3400",      "type": "Vulnerability","properties": { "cveId": "CVE-2024-3400", "severity": "critical" } },
     { "id": "CVE-2024-3401",      "type": "Vulnerability","properties": { "cveId": "CVE-2024-3401", "severity": "minor" } },
     { "id": "PAN-OS",             "type": "Product",      "properties": { "kind": "network operating system" } },
@@ -514,12 +514,12 @@ cti:sourceDoc   a owl:DatatypeProperty ; rdfs:domain cti:ExtractedFact ; rdfs:ra
 ########################
 
 # 组织
-cti:ExampleMart    a cti:Organization ; rdfs:label "Taotao" .
+cti:Taotao    a cti:Organization ; rdfs:label "Taotao" .
 cti:PaloAltoNetworks  a cti:Organization ; rdfs:label "Palo Alto Networks" .
 
 # 威胁组织
 cti:TA-5142  a cti:ThreatActor ; rdfs:label "TA-5142" ;
-    cti:targets      cti:ExampleMart ;
+    cti:targets      cti:Taotao ;
     cti:uses         cti:HAMMERTOSS ;
     cti:exploits     cti:CVE-2024-3400 , cti:CVE-2024-3401 .
 
@@ -594,7 +594,7 @@ cti:ProductShape  a sh:NodeShape ;
 
 上面 3.2~3.6 从直觉模型画图、3.7 落成 OWL/RDF/SHACL 正式建模。把两者合一——**用本体（Schema）约束 + 实例（ABox）填充**，这张知识图谱就是“建成的大楼”：
 
-![知识图谱：本体（Schema）约束下填充实例后的成品图](kg01.png)
+![知识图谱：本体（Schema）约束下填充实例后的成品图]({{ site.baseurl }}/ontology/kg01.png)
 
 （`CVE-2024-3401` 与 `CVE-2024-3400` 同构：`TA-5142` --<span style="color:#0969da">`exploits`</span>--> `CVE-2024-3401` --<span style="color:#0969da">`affects`</span>--> `PAN-OS`，省略避免重叠。）
 
@@ -602,11 +602,11 @@ cti:ProductShape  a sh:NodeShape ;
 
 - **本体 = 图纸**：`ThreatActor / Vulnerability / Product / Malware / Organization / Platform / AttackPattern` 这些类、<span style="color:#0969da">`exploits`</span> / <span style="color:#0969da">`affects`</span> / <span style="color:#0969da">`uses`</span> / <span style="color:#0969da">`usesChannel`</span> / <span style="color:#0969da">`developedBy`</span> / <span style="color:#0969da">`targets`</span> 这些属性，全部来自 OWL 定义——图里的**每个节点带 `type:` 类标签、每条边就是对象属性**，没有超纲。
 
-- **实例 = 大楼**：`TA-5142 / CVE-2024-3400 / PAN-OS…` 这些具体实体来自RDF ABox,图里每个方框就是按图纸砌上去的一块。
+- **实例 = 大楼**：`TA-5142 / CVE-2024-3400 / PAN-OS…` 这些具体实体来自 RDF ABox，图里每个方框就是按图纸砌上去的一块。
 
 - **SHACL = 门禁**：图能进库，是因为通过了 `VulnerabilityShape / ThreatActorShape / ProductShape` 校验（有 cveId、有 severity、有厂商、有影响面……）。
 
-- **一句话**：这张图 = OWL（Schema）＋ RDF 实例（ABox）＋ SHACL 校验 三者拼出来的**知识图谱**；与Cypher 属性图是同一知识的两种表示（属性图侧重导入 Neo4j，这里侧重“本体约束下的成品图”）。
+- **一句话**：这张图 = OWL（Schema）＋ RDF 实例（ABox）＋ SHACL 校验 三者拼出来的**知识图谱**；与 Cypher 属性图是同一知识的两种表示（属性图侧重导入 Neo4j，这里侧重“本体约束下的成品图”）。
 
 ---
 
@@ -737,7 +737,7 @@ col.insert([
 SHACL 门禁（cveId 格式、影响面必填）              沿边多跳查询 + GraphRAG 回答</pre>
 
 **落地形态**（对齐第一~四章）：
-- **本体**：第三章 威胁情报 样例（7 类实体 + 7 种关系 + SHACL 约束），管“威胁情报的语言统一”——不同来源（报告/漏洞库/厂商）的同一实体（如 `CVE-2024-3400`）靠 `cveId` 对齐。
+- **本体**：第三章威胁情报样例（6 类实体 + 6 种关系 + SHACL 约束），管“威胁情报的语言统一”——不同来源（报告/漏洞库/厂商）的同一实体（如 `CVE-2024-3400`）靠 `cveId` 对齐。
 - **图谱**：实体与关系实例化，支撑 `MATCH ...-[:EXPLOITS]->()-[:AFFECTS]->()<-[:DEVELOPS]-() RETURN` 这类多跳查询。
 - **RAG 增强**：GraphRAG 融合——向量召回候选实体 + 图谱沿边扩散给证据链，答案带 `sourceDoc` 可溯源。
 
@@ -773,7 +773,7 @@ LLM 生成答案（带引用，可溯源）：
 
 **本体+图谱解法**：
 
-研发过程建模： 
+研发过程建模：
 ```
 客户需求 →(衍生)→ 产品需求 →(对应)→ 模块 →(支撑)→ 设计方案
         →(覆盖)→ 测试用例 →(发现)→ 缺陷 →(归属)→ 模块
