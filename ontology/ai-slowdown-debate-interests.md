@@ -3,7 +3,7 @@ layout: article
 title: AI末日来了吗？一场 AI 路线之争
 description: 从 Jacob Coxon 辞职、Dario Amodei 的公开信到黄仁勋与总统的现场通话，拆解 AI 安全争论背后的利益结构、冲突与未来走向。
 date: 2026-09-16
-permalink: /ontology/ai-slowdown-debate-interests-v3/
+permalink: /ontology/ai-slowdown-debate-interests/
 ---
 
 # AI末日来了吗？一场 AI 路线之争
